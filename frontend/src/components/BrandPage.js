@@ -1,35 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ethers } from 'ethers';
 import abi from '../utils/BrandNFT.json';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import AddApps from "./AddApps";
 import axios from "axios";
 import BrandCard from "./BrandCard";
-import BrandDetails from "./BrandDetails";
-import AddBrand from "./AddBrand";
-
-const allBrands = [
-   {
-       "owner": "0xE2df436150a4ed4e5ab4ea103f1DF76932602Cce",
-       "tokenID": "1",
-       "tokenName": "Ethereum",
-       "tokenDescription": "BlockChain company",
-       "tokenLogo": "https://bafybeide2cm27d363cpivhiobseyakkfl2odyqvnurfgngxapglb76k4aa.ipfs.dweb.link/ethereum.png"
-   }
-];
 
 
 const BrandPage = () => {
 
    // Render Methods
 
-   //const LOCAL_STORAGE_KEY = "allBrands";
-   //console.log(localStorage.getItem(LOCAL_STORAGE_KEY).length);
-   //const retriveBrands = (localStorage.getItem(LOCAL_STORAGE_KEY) !== '[]') ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : [];
+   const LOCAL_STORAGE_KEY = "allBrands";
+   const retriveBrands = (localStorage.getItem(LOCAL_STORAGE_KEY) !== '') ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : [];
+
 
    const [ currentAccount, setCurrentAccount ] = useState("");
-   
-   const contractAddress = "0x1C53D4BdCe09827059046998b3832AB9Df00793A";
+   const [ allBrands, setAllBrands ] = useState(retriveBrands);
+
+   const contractAddress = "0x11e3d82ebed1e82da57e2512554ede03846a00bf";
    const contractABI = abi.abi;
 
    const checkIfWalletIsConnect = async () => {
@@ -75,6 +62,10 @@ const BrandPage = () => {
       console.log(error)
       }
    }
+
+  const reloadPage = () => {
+     getmintedBrands(); 
+  }
    
   const getmintedBrands = async () => {
    try {
@@ -105,10 +96,10 @@ const BrandPage = () => {
             tokenLogo: response.data.logoUrl
             });
 
+            setAllBrands([...mintedBrandsClean]);
+
          })
 
-         console.log("drhdrthryt", mintedBrandsClean);
-         //setAllBrands(mintedBrandsClean);
 
       }
     } catch (error) {
@@ -117,12 +108,11 @@ const BrandPage = () => {
    }
 
    useEffect(() => {
-      getmintedBrands();
-      checkIfWalletIsConnect()
-      }, []);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(allBrands));
+      checkIfWalletIsConnect();
+   }, [allBrands]);
    
    return (
-
       <div className="bg-gray-800">
          <header className="p-4 bg-gray-800 text-gray-100">
             <div className="container flex justify-between h-16 mx-auto">
@@ -140,9 +130,10 @@ const BrandPage = () => {
                      )}
 
                      {currentAccount && (
-                        <div className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" >{currentAccount}</div>
+                        <div className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900">{currentAccount}</div>
                      )}
-                  
+
+                     <button className="px-3 py-3 font-semibold rounded bg-green-400 text-gray-900 lg:ml-10" onClick={(e)=> reloadPage()}> Get All NFTs</button>
                </div>
                <button className="p-4 lg:hidden">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-gray-100">
@@ -153,15 +144,13 @@ const BrandPage = () => {
          </header>
 
          <div className="flex justify-center items-center h-screen bg-gray-800 text-gray-100 items-stretch lg:mt-10">
-
             {allBrands && allBrands.map((brand, index) => {
-               return (
-                  <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
-                     <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
-                  </div>
-               )
-            })}
-
+                  return (
+                     <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
+                        <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
+                     </div>
+                  )
+               })}
          </div>
 
          <footer className="py-6 bg-gray-900 text-gray-50 lg:mt-20">
