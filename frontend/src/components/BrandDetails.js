@@ -4,29 +4,22 @@ import AddApps from "./AddApps";
 import Greeter from "../dApps/Greeter";
 
 
-const allBrands = [
-   {
-       "owner": "0xE2df436150a4ed4e5ab4ea103f1DF76932602Cce",
-       "tokenID": "1",
-       "tokenName": "Ethereum",
-       "tokenDescription": "BlockChain company",
-       "tokenLogo": "https://bafybeide2cm27d363cpivhiobseyakkfl2odyqvnurfgngxapglb76k4aa.ipfs.dweb.link/ethereum.png"
-   }
-];
-
-
 const BrandDetails = () => {
   // Add components in the component folder
-  
+   
+
+   const LOCAL_STORAGE_KEY = "allBrands";
+   const allBrands = (localStorage.getItem(LOCAL_STORAGE_KEY) !== '') ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : [];
+
    let params = useParams();
 
-   //const LOCAL_STORAGE_KEY = "allBrands";
-   //const retriveBrands = (localStorage.getItem(LOCAL_STORAGE_KEY) !== '') ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : [];
    const retriveBrands = allBrands;
+   console.log(retriveBrands);
+
    const brandDetail = retriveBrands[Number(params.tokenID)-1];
 
    const [ currentAccount, setCurrentAccount ] = useState("");
-  
+   
    const checkIfWalletIsConnect = async () => {
       // we have to check if we have access to window.ethereum
 
