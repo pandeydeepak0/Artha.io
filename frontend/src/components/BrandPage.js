@@ -1,37 +1,34 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ethers } from 'ethers';
 import abi from '../utils/BrandNFT.json';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import AddApps from "./AddApps";
 import axios from "axios";
 import BrandCard from "./BrandCard";
-import BrandDetails from "./BrandDetails";
-import AddBrand from "./AddBrand";
-
-const allBrands = [
-   {
-       "owner": "0xE2df436150a4ed4e5ab4ea103f1DF76932602Cce",
-       "tokenID": "1",
-       "tokenName": "Ethereum",
-       "tokenDescription": "BlockChain company",
-       "tokenLogo": "https://bafybeide2cm27d363cpivhiobseyakkfl2odyqvnurfgngxapglb76k4aa.ipfs.dweb.link/ethereum.png"
-   }
-];
-
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useSigner, useProvider } from 'wagmi';
+import * as wagmi from "wagmi";
+import Header from "./Header";
 
 const BrandPage = () => {
 
    // Render Methods
+   const LOCAL_STORAGE_KEY = "allBrands";
+   const retriveBrands = (localStorage.getItem(LOCAL_STORAGE_KEY) !== '') ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : [];
 
-   //const LOCAL_STORAGE_KEY = "allBrands";
-   //console.log(localStorage.getItem(LOCAL_STORAGE_KEY).length);
-   //const retriveBrands = (localStorage.getItem(LOCAL_STORAGE_KEY) !== '[]') ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : [];
 
-   const [ currentAccount, setCurrentAccount ] = useState("");
-   
-   const contractAddress = "0x1C53D4BdCe09827059046998b3832AB9Df00793A";
+   const { address, isConnected } = useAccount();
+   const _signer = useSigner();
+
+   // An ethers.Provider instance. This will be the same provider that is  
+   // passed as a prop to the WagmiProvider.
+   const _provider = useProvider();
+
+   const [ allBrands, setAllBrands ] = useState(retriveBrands);
+
+   const contractAddress = "0x11e3d82ebed1e82da57e2512554ede03846a00bf";
    const contractABI = abi.abi;
 
+
+   /*
    const checkIfWalletIsConnect = async () => {
       // we have to check if we have access to window.ethereum
 
@@ -75,15 +72,27 @@ const BrandPage = () => {
       console.log(error)
       }
    }
+   */
+
+  const reloadPage = () => {
+     getmintedBrands(); 
+   }
    
   const getmintedBrands = async () => {
    try {
    const { ethereum } = window;
 
       if(ethereum) {
-         const provider = new ethers.providers.Web3Provider(ethereum);
-         const signer = provider.getSigner();
-         const BrandNFTContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+
+         const provider = _provider;
+         const signer = _signer;
+         //const BrandNFTContract = new ethers.Contract(contractAddress, contractABI, signer);
+         const BrandNFTContract = wagmi.useContract({
+            addressOrName: contractAddress,
+            contractInterface: contractABI,
+            signerOrProvider: signer.data || provider,
+          });
 
          const mintedBrands = await BrandNFTContract.getMintedBrands();
          
@@ -105,10 +114,9 @@ const BrandPage = () => {
             tokenLogo: response.data.logoUrl
             });
 
-         })
+            setAllBrands([...mintedBrandsClean]);
 
-         console.log("drhdrthryt", mintedBrandsClean);
-         //setAllBrands(mintedBrandsClean);
+         })
 
       }
     } catch (error) {
@@ -117,51 +125,21 @@ const BrandPage = () => {
    }
 
    useEffect(() => {
-      getmintedBrands();
-      checkIfWalletIsConnect()
-      }, []);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(allBrands));
+   }, [allBrands]);
    
    return (
-
       <div className="bg-gray-800">
-         <header className="p-4 bg-gray-800 text-gray-100">
-            <div className="container flex justify-between h-16 mx-auto">
-               <div className="flex">
-                  <a rel="noopener noreferrer" href="#" aria-label="Back to homepage" className="flex items-center p-2">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 32 32" className="w-8 h-8 text-green-400">
-                        <path d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"></path>
-                     </svg>
-                     <h2 className="px-15 py-6 lg:p-10 text-3xl font-semibold rounded bg-grey-800 text-green-400">Artha.io</h2>
-                  </a>
-               </div>
-               <div className="items-center flex-shrink-0 hidden lg:flex">
-                     {!currentAccount && (
-                        <button className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" onClick={connectWallet}>Connect with Wallet</button>
-                     )}
-
-                     {currentAccount && (
-                        <div className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" >{currentAccount}</div>
-                     )}
-                  
-               </div>
-               <button className="p-4 lg:hidden">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-gray-100">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-               </button>
-            </div>
-         </header>
+         <Header/>
 
          <div className="flex justify-center items-center h-screen bg-gray-800 text-gray-100 items-stretch lg:mt-10">
-
             {allBrands && allBrands.map((brand, index) => {
-               return (
-                  <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
-                     <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
-                  </div>
-               )
-            })}
-
+                  return (
+                     <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
+                        <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
+                     </div>
+                  )
+               })}
          </div>
 
          <footer className="py-6 bg-gray-900 text-gray-50 lg:mt-20">

@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { ethers } from 'ethers';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useNetwork, useSignMessage } from 'wagmi';
+import Header from "./Header";
 
+/*
+{!currentAccount && (
+   <button className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" onClick={connectWallet}>Connect with Wallet</button>
+)}
+
+{currentAccount && (
+   <div className="px-8 py-3 font-semibold rounded bg-gray-800 text-green-400" >{currentAccount}</div>
+)}
+*/
 const Home = () => {
 
    const history = useHistory();
@@ -12,11 +22,12 @@ const Home = () => {
    }
 
    const toBrandPage = () => {
-      history.push("/allBrands");
+      history.push("/brands");
    }
    // Render Methods
-   const [ currentAccount, setCurrentAccount ] = useState("");
+   const { address, isConnected } = useAccount();
 
+   /*
    const checkIfWalletIsConnect = async () => {
     // we have to check if we have access to window.ethereum
 
@@ -59,42 +70,15 @@ const Home = () => {
       console.log(error)
     }
   }
-
-  useEffect(() => {
-   checkIfWalletIsConnect(); 
-  },[]);
+  
+   */
+  useEffect(() => {},[address]);
+ 
 
   // Render Methods
    return (
       <div className="bg-gray-800">
-         <header className="p-4 bg-gray-800 text-gray-100">
-            <div className="container flex justify-between h-16 mx-auto">
-               <div className="flex">
-                  <a rel="noopener noreferrer" href="#" aria-label="Back to homepage" className="flex items-center p-2">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 32 32" className="w-8 h-8 text-green-400">
-                        <path d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"></path>
-                     </svg>
-                     <h2 className="px-15 py-6 lg:p-10 text-3xl font-semibold rounded bg-grey-800 text-green-400">Artha.io</h2>
-                  </a>
-               </div>
-               <div className="items-center flex-shrink-0 hidden lg:flex">
-                     {!currentAccount && (
-                        <button className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" onClick={connectWallet}>Connect with Wallet</button>
-                     )}
-
-                     {currentAccount && (
-                        <div className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" >{currentAccount}</div>
-                     )}
-                  
-               </div>
-               <button className="p-4 lg:hidden">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-gray-100">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-               </button>
-            </div>
-         </header>
-
+         <Header/>
          <section className="bg-gray-800 text-gray-100">
             <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
                <div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
@@ -106,7 +90,7 @@ const Home = () => {
                   </p>
                   <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
 
-                     {currentAccount && (
+                     {isConnected && (
                         <div className="flex flex-row space-x-4">
                            <button type="button" className="px-8 py-3 justify-right font-semibold rounded-full bg-green-400 text-gray-800" onClick={toMintBrandPage}>Mint My Brand</button>
                            <button type="button" className="px-8 py-3 justify-right font-semibold rounded-full bg-gray-400 text-gray-800" onClick={toBrandPage}>All Brands</button>

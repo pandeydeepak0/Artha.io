@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from 'ethers';
-import abi from '../utils/Greeter.json';
+import abi from '../../utils/Greeter.json';
+import Button from '@mui/material/Button';
 
 const Greeter = (props) => {
   // Add components in the component folder
@@ -122,12 +123,16 @@ const Greeter = (props) => {
   console.log("In greeter")
   return (
     <div className="bg-gray-900">
-      <input  onChange={writeGreeting} value={Greeting} className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-100 text-gray-800 focus:bg-gray-50 focus:border-indigo-600" />
+         
+
+      <input onChange={writeGreeting} value={Greeting} className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-100 text-gray-800 focus:bg-gray-50 focus:border-indigo-600" />
       <button type="button" className="lg:ml-2 px-5 py-2 font-semibold rounded-md bg-green-400 text-gray-900" onClick={greet}>Greet</button>
       <div className="flex lg:mt-5 items-center justify-between p-6 border-l-8 sm:py-8 border-indigo-600 bg-gray-50 text-gray-800">
 	      <span>{currentGreeting}</span>
       </div>
     </div>
+
+    
   );
 
 };

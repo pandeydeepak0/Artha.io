@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from 'react-router-dom';
 
 const BrandCard = (props) => {
@@ -7,7 +7,7 @@ const BrandCard = (props) => {
   const history = useHistory();
 
   const toBrand = (_tokenID) => {
-     history.push(`/brands/${_tokenID}`);
+     history.push(`/brands/${_tokenID-1}`);
   }
 
   return (
