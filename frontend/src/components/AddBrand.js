@@ -4,6 +4,9 @@ import { ethers } from 'ethers';
 import { Web3Storage, File } from 'web3.storage/dist/bundle.esm.min.js';
 import { useHistory } from 'react-router-dom';
 import Header from "./Header";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useSigner, useProvider } from 'wagmi';
+import * as wagmi from "wagmi";
 
 function makeStorageClient() {
   return new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDNlY0RlMjk3NDlFOWQ2OEU5NjBjNTkxYzVDRjY5MWE5Nzc2MTc2YzUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM3MDY0MDAxMjQsIm5hbWUiOiJBcnRoYU5GVCJ9.A0FsT-Fl6cPwgOiVVt7beyAC1E3Rmm9SxfDTrikkB7g" });
@@ -28,6 +31,21 @@ const AddBrand = () => {
   const [brandOverview, setBrandOverview] = useState("");
   const [brandTeam, setBrandTeam] = useState([]);
   const [brandWebsite, setBrandWebsite] = useState("www.sample.com");
+
+  const { address, isConnected } = useAccount();
+  const signer = useSigner();
+
+  // An ethers.Provider instance. This will be the same provider that is  
+  // passed as a prop to the WagmiProvider.
+  const provider = useProvider();
+
+  const BrandNFTContract = wagmi.useContract({
+          addressOrName: contractAddress,
+          contractInterface: contractABI,
+          signerOrProvider: signer.data || provider,
+        });
+
+  console.log(address);
 
   const uploadBrandLogo = async (e) => {
     const file = e.target.files[0];
@@ -95,10 +113,6 @@ const AddBrand = () => {
     try {
       const { ethereum } = window;
       if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const BrandNFTContract = new ethers.Contract(contractAddress, contractABI, signer);
-        
         const metadataURL = await generateBrandMetadata();
         console.log(metadataURL);
         const mintTxn = await BrandNFTContract.MintNFT(metadataURL);
@@ -168,26 +182,7 @@ const AddBrand = () => {
               </div>
             </div>
           </fieldset>
-          <fieldset className=" grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-gray-900">
-            <div className="space-y-2 col-span-full lg:col-span-1">
-              <p className="font-medium text-2xl">Founder Information</p>
-              <p className="text-xs">Whose genius went into this?</p>
-            </div>
-            <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-              <div className="col-span-full sm:col-span-3">
-                <label htmlFor="username" className="text-sm">Name</label>
-                <input id="username" type="text" placeholder="Username" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => addBrandTeam()}/>
-              </div>
-              <div className="col-span-full sm:col-span-3">
-                <label htmlFor="position" className="text-sm">Position</label>
-                <input id="position" type="text" placeholder="CEO" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => addBrandTeam()}/>
-              </div>
-              <div className="col-span-full">
-                <label htmlFor="bio" className="text-sm">Tell us about yourself?</label>
-                <textarea id="bio" placeholder="I am an exprienced founder..." className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => addBrandTeam()}></textarea>
-              </div>
-            </div>
-          </fieldset>
+          
         </form>
         <div className="flex justify-center lg:mt-5">
             <button type="button" className="px-8 py-3 content-center justify-center font-semibold rounded-full bg-green-400 text-gray-800" onClick={mintNFT}>Mint Brand NFT</button>

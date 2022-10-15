@@ -22,11 +22,21 @@ const BrandPage = () => {
    // passed as a prop to the WagmiProvider.
    const _provider = useProvider();
 
+   const provider = _provider;
+   const signer = _signer;
+   //const BrandNFTContract = new ethers.Contract(contractAddress, contractABI, signer);
+   
+
    const [ allBrands, setAllBrands ] = useState(retriveBrands);
 
    const contractAddress = "0x11e3d82ebed1e82da57e2512554ede03846a00bf";
    const contractABI = abi.abi;
 
+   const BrandNFTContract = wagmi.useContract({
+      addressOrName: contractAddress,
+      contractInterface: contractABI,
+      signerOrProvider: signer.data || provider,
+      });
 
    /*
    const checkIfWalletIsConnect = async () => {
@@ -85,14 +95,7 @@ const BrandPage = () => {
       if(ethereum) {
 
 
-         const provider = _provider;
-         const signer = _signer;
-         //const BrandNFTContract = new ethers.Contract(contractAddress, contractABI, signer);
-         const BrandNFTContract = wagmi.useContract({
-            addressOrName: contractAddress,
-            contractInterface: contractABI,
-            signerOrProvider: signer.data || provider,
-          });
+         
 
          const mintedBrands = await BrandNFTContract.getMintedBrands();
          
@@ -131,9 +134,10 @@ const BrandPage = () => {
    return (
       <div className="bg-gray-800">
          <Header/>
+          <button className="px-3 py-3 font-semibold rounded bg-green-400 text-gray-900 lg:ml-10" onClick={(e)=> reloadPage()}> Get All NFTs</button>
 
          <div className="flex justify-center items-center h-screen bg-gray-800 text-gray-100 items-stretch lg:mt-10">
-            {allBrands && allBrands.map((brand, index=brand.tokenId) => {
+            {allBrands && allBrands.map((brand, index) => {
                   return (
                      <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
                         <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
