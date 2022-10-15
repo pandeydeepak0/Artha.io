@@ -133,7 +133,7 @@ const BrandPage = () => {
          <Header/>
 
          <div className="flex justify-center items-center h-screen bg-gray-800 text-gray-100 items-stretch lg:mt-10">
-            {allBrands && allBrands.map((brand, index) => {
+            {allBrands && allBrands.map((brand, index=brand.tokenId) => {
                   return (
                      <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
                         <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>

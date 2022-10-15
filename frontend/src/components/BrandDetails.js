@@ -13,7 +13,7 @@ const BrandDetails = () => {
    const retriveBrands = allBrands;
    console.log(retriveBrands);
 
-   const brandDetail = retriveBrands[Number(params.tokenID)-1];
+   const brandDetail = retriveBrands[Number(params.tokenID)];
 
    const [ currentAccount, setCurrentAccount ] = useState("");
    
