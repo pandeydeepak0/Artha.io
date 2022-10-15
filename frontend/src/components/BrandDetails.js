@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import AddApps from "./AddApps";
-
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useSigner, useProvider } from 'wagmi';
+import * as wagmi from "wagmi";
+import Header from "./Header";
 
 const BrandDetails = () => {
   // Add components in the component folder
@@ -15,8 +18,14 @@ const BrandDetails = () => {
 
    const brandDetail = retriveBrands[Number(params.tokenID)];
 
-   const [ currentAccount, setCurrentAccount ] = useState("");
-   
+   const { address, isConnected } = useAccount();
+   const _signer = useSigner();
+
+   // An ethers.Provider instance. This will be the same provider that is  
+   // passed as a prop to the WagmiProvider.
+   const _provider = useProvider();
+
+   /*   
    const checkIfWalletIsConnect = async () => {
       // we have to check if we have access to window.ethereum
 
@@ -45,6 +54,7 @@ const BrandDetails = () => {
   useEffect(() => {
    checkIfWalletIsConnect();
  },[]);
+*/
 
   return (
 
@@ -60,9 +70,7 @@ const BrandDetails = () => {
                   <h2 className="px-15 py-6 lg:p-10 text-3xl font-semibold rounded bg-grey-800 text-green-400">Artha.io</h2>
             </div>
             <div className="items-center flex-shrink-0 hidden lg:flex">
-                  {currentAccount && (
-                     <div className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" >{currentAccount}</div>
-                  )}
+                  <ConnectButton/>
                
             </div>
             <button className="p-4 lg:hidden">
@@ -87,7 +95,7 @@ const BrandDetails = () => {
             </div>
          </div>
 
-         {currentAccount.toLowerCase() === brandDetail.owner.toLowerCase() && (
+         {address.toLowerCase() === brandDetail.owner.toLowerCase() && (
             <AddApps owner={brandDetail.owner} tokenID={brandDetail.tokenID}/>)}   
 
       </div>

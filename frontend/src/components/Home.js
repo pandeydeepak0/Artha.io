@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useNetwork, useSignMessage } from 'wagmi';
+import { useAccount } from 'wagmi';
 import Header from "./Header";
 
-/*
-{!currentAccount && (
-   <button className="px-8 py-3 font-semibold rounded bg-green-400 text-gray-900" onClick={connectWallet}>Connect with Wallet</button>
-)}
 
-{currentAccount && (
-   <div className="px-8 py-3 font-semibold rounded bg-gray-800 text-green-400" >{currentAccount}</div>
-)}
-*/
 const Home = () => {
 
    const history = useHistory();
@@ -27,54 +18,8 @@ const Home = () => {
    // Render Methods
    const { address, isConnected } = useAccount();
 
-   /*
-   const checkIfWalletIsConnect = async () => {
-    // we have to check if we have access to window.ethereum
-
-    try {
-      const { ethereum } = window;
-      if(!ethereum) {
-        console.log("Make sure you have MetaMask!");
-      } else {
-        console.log("We have an ethereum Object", ethereum);
-      }
-
-      const accounts = await ethereum.request({method : "eth_accounts"});
-
-      if(accounts.length !== 0) {
-        const account = accounts[0];
-        console.log("Found an authorized Account:", account);
-        setCurrentAccount(account)
-      } else {
-        console.log("No authorized account found");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const connectWallet = async () => {
-    try{
-      const{ ethereum } = window;
-
-      if(!ethereum) {
-        alert("Get MetaMask!");
-        return;
-      }
-
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-
-      console.log("Connected", accounts[0]);
-      setCurrentAccount(accounts[0]);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  
-   */
-  useEffect(() => {},[address]);
+   useEffect(() => {},[address]);
  
-
   // Render Methods
    return (
       <div className="bg-gray-800">
