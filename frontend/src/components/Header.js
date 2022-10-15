@@ -1,8 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useNetwork, useSignMessage } from 'wagmi';
 
 const Header = () => {
   return (
