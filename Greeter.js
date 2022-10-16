@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useSigner, useProvider } from 'wagmi';
+import * as wagmi from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from 'ethers';
-import abi from '../../utils/Greeter.json';
-import Button from '@mui/material/Button';
 
-const Greeter = (props) => {
+const Feedback = (props) => {
   // Add components in the component folder
   // Render Methods
 

@@ -18,6 +18,8 @@ const BrandDetails = () => {
 
    const brandDetail = retriveBrands[Number(params.tokenID)];
 
+   console.log(Number(params.tokenID));
+
    const { address } = useAccount();
    const _signer = useSigner();
 

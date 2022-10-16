@@ -7,7 +7,7 @@ const BrandCard = (props) => {
   const history = useHistory();
 
   const toBrand = (_tokenID) => {
-     history.push(`/brands/${_tokenID}`);
+     history.push(`/brands/${_tokenID-1}`);
   }
 
   return (

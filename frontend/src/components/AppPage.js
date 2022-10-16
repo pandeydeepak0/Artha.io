@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from 'react-router-dom';
-import Greeter from "../dApps/Greeter/Greeter";
+import Feedback from "../dApps/Feedback/Feedback";
 
 const AppPage = (props) => {
   // Add components in the component folder
@@ -9,7 +9,7 @@ const AppPage = (props) => {
 
   return (
          <div className="max-w-xs rounded-md shadow-md bg-gray-900 text-gray-100 ">
-            <Greeter contractAddress={props.contractAddress} />
+            <Feedback contractAddress={props.contractAddress} />
          </div>
    );
 };

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import abi from '../utils/BrandNFT.json';
-import { ethers } from 'ethers';
 import { Web3Storage, File } from 'web3.storage/dist/bundle.esm.min.js';
 import { useHistory } from 'react-router-dom';
 import Header from "./Header";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useSigner, useProvider } from 'wagmi';
 import * as wagmi from "wagmi";
 
