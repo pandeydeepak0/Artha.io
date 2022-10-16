@@ -3,6 +3,7 @@ import abi from '../utils/BrandNFT.json';
 import { Web3Storage, File } from 'web3.storage/dist/bundle.esm.min.js';
 import { useHistory } from 'react-router-dom';
 import Header from "./Header";
+import Footer from "./Footer"
 import { useAccount, useSigner, useProvider } from 'wagmi';
 import * as wagmi from "wagmi";
 
@@ -16,9 +17,9 @@ const AddBrand = () => {
 
   const history = useHistory();
 
-   const toBrandPage = () => {
-      history.push("/brands/");
-   }
+  const toBrandPage = () => {
+    history.push("/brands/");
+  }
 
   const contractAddress = "0x11e3D82ebED1E82dA57e2512554EDe03846A00bf";
   const contractABI = abi.abi;
@@ -38,10 +39,10 @@ const AddBrand = () => {
   const provider = useProvider();
 
   const BrandNFTContract = wagmi.useContract({
-          addressOrName: contractAddress,
-          contractInterface: contractABI,
-          signerOrProvider: signer.data || provider,
-        });
+    addressOrName: contractAddress,
+    contractInterface: contractABI,
+    signerOrProvider: signer.data || provider,
+  });
 
   console.log(address);
 
@@ -70,7 +71,7 @@ const AddBrand = () => {
   }
 
   const addBrandTeam = () => {
-    setBrandTeam([{"Saurabh": ""}, {"Deepak": ""}]);
+    setBrandTeam([{ "Saurabh": "" }, { "Deepak": "" }]);
   }
 
   function makeFileObjects(obj) {
@@ -79,7 +80,7 @@ const AddBrand = () => {
       new File([blob], `${obj.slugName}.json}`)
     ]
     return files
-  } 
+  }
 
   const generateBrandMetadata = async () => {
 
@@ -92,7 +93,7 @@ const AddBrand = () => {
       brandTeam,
       brandWebsite
     };
-    
+
     console.log(jsonSchema);
 
     // Call API to create brand
@@ -123,7 +124,7 @@ const AddBrand = () => {
 
         let lastestMint = await BrandNFTContract.latestMintAddress();
         console.log("Latest NFT minted by...", lastestMint);
-        
+
         //navigate to All Brands page
         toBrandPage();
 
@@ -145,48 +146,55 @@ const AddBrand = () => {
 
   return (
     <div>
-    <div className="bg-gray-800 lg:pb-20">
-      <Header/>
+      <div className="gradientGreen">
+        <Header />
 
-      <section className="p-6 bg-gray-700 text-gray-300">
-        <form className="container flex flex-col mx-auto space-y-12 ng-untouched ng-pristine ng-valid ">
-          <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-gray-900">
-            <div className="space-y-2 col-span-full lg:col-span-1">
-              <p className="font-medium text-2xl">General Inormation</p>
-              <p className="text-xs">Let us know little bit about your Brand, this information will be used to create your Brand's NFT.</p>
+        <section className="md:max-w-4xl lg:max-w-5xl xl:max-w-6xl w-11/12 mx-auto">
+          <h1 className='pt-20 text-center text-5xl font-semibold tracking-tighter font-Roboto text-gray-200'>Mint your digital identity</h1>
+
+          <div className='my-10 p-5 font-Roboto rounded-xl shadow-lg md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:w-1/2 mx-auto bg-slate-100'>
+            <div>
+              <h1 className='text-gray-500 font-semibold text-xl'>General Information</h1>
+              <p className='text-sm'>Let us know little bit about your Brand, this information will be used to create your Brand's NFT.</p>
             </div>
-            <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-              <div className="col-span-full sm:col-span-3">
-                <label htmlFor="brandname" className="text-sm">Brand Name</label>
-                <input id="brandname" type="text" placeholder="Artha.io" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => setBrandName(e.target.value)}/>
-              </div>
-              <div className="col-span-full sm:col-span-3">
-                <label htmlFor="website" className="text-sm">Website</label>
-                <input id="website" type="text" placeholder="www.Artha.io" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => setBrandWebsite(e.target.value)}/>
-              </div>
-              <div className="col-span-full">
-                <label htmlFor="description" className="text-sm">What do you offer?</label>
-                <input id="description" type="text" placeholder="Web3 Marketplace for digital brands" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => setBrandDescription(e.target.value)}/>
-              </div>
-              <div className="col-span-full">
-                <label htmlFor="overview" className="text-sm">Describe Your Brand</label>
-                <textarea id="overview" placeholder="Write about your mission, tell us what positions you uniquely in market" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-gray-300 text-gray-900" onChange={(e) => setBrandWebsite(e.target.value)}></textarea>
-              </div>
-              <div className="col-span-full">
-                <label htmlFor="logo" className="block text-sm font-medium">Add your Logo</label>
-                <div className="flex">
-                  <input type="file" name="logo" id="logo" className="px-8 py-12 border-2 border-dashed rounded-md border-gray-300 text-gray-600 bg-gray-100" onChange={(e) => uploadBrandLogo(e)}/>
+
+            <form className="">
+              <fieldset className="">
+                <div className='pt-6 grid gap-x-4 md:grid-cols-2'>
+                  <div className="mb-6">
+                    <label for="brandName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Brand Name</label>
+                    <input onChange={(e) => setBrandName(e.target.value)} type="text" id="brandName" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Artha" />
+                  </div>
+                  <div className="mb-6">
+                    <label for="website" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Website</label>
+                    <input onChange={(e) => setBrandWebsite(e.target.value)} type="text" id="website" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder='artha.io' />
+
+                  </div>
                 </div>
-              </div>
+                <div className="mb-6">
+                  <label for="whatToOffer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">What do you have to offer ?</label>
+                  <textarea onChange={(e) => setBrandOverview(e.target.value)} id="whatToOffer" rows="2" className="shadow-sm block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                </div>
+                <div className="mb-6">
+                  <label for="describe" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Describe your brand</label>
+                  <textarea onChange={(e) => setBrandDescription(e.target.value)} id="describe" rows="3" className="shadow-sm block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></textarea>
+                </div>
+                <div className='mb-6'>
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="user_avatar">Upload file</label>
+                  <input onChange={(e) => uploadBrandLogo(e)} class="block w-full text-sm text-gray-900 appearance-none bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
+                </div>
+              </fieldset>
+            </form>
+
+            <div className='mt-6 flex flex-col gap-3 md:flex-row'>
+              <button type='reset' className="text-white bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Reset</button>
+              <button onClick={mintNFT} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={mintNFT}>Mint now</button>
             </div>
-          </fieldset>
-          
-        </form>
-        <div className="flex justify-center lg:mt-5">
-            <button type="button" className="px-8 py-3 content-center justify-center font-semibold rounded-full bg-green-400 text-gray-800" onClick={mintNFT}>Mint Brand NFT</button>
-        </div>
+          </div>
+
         </section>
-    </div>
+        <Footer />
+      </div>
     </div>
   );
 };
