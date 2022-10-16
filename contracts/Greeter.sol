@@ -2,8 +2,9 @@
 pragma solidity ^0.8.1;
 
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract GreeterFactory {
+contract GreeterFactory{
 
   // instantiate Bank contract
   Greeter greeter;
@@ -16,8 +17,10 @@ contract GreeterFactory {
 
 
   // function arguments are passed to the constructor of the new created contract 
-  function createGreeter(address _owner, uint256 _tokenID) external {
-      greeter = new Greeter(_owner, _tokenID);
+  function createGreeter(address _owner, uint256 _rewardAmount) external {
+      greeter = new Greeter(_owner, _rewardAmount);
+
+
       list_of_greeters.push(greeter);
 
       greeterContract[contractID] = greeter;

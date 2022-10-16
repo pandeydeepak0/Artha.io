@@ -27,7 +27,7 @@ const main = async() => {
 
    await GreeterFactory.deployed();
    console.log("GreeterFactory deployed on %s", GreeterFactory.address);
-   /*
+   
    const Greeter = await GreeterFactory.createGreeter(owner.address, 2);
 
    console.log("GreeterFactory address at: ", Greeter.to);
@@ -44,7 +44,7 @@ const main = async() => {
 
    let greeterList = await GreeterFactory.getContractAddress(1);
    console.log("address of greeter Contract", greeterList);
-   */
+   
 
 };
 

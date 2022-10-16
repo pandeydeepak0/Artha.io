@@ -131,7 +131,9 @@ const BrandPage = () => {
           <button className="px-3 py-3 font-semibold rounded bg-green-400 text-gray-900 lg:ml-10" onClick={(e)=> reloadPage()}> Get All NFTs</button>
 
          <div className="flex justify-center items-center h-screen bg-gray-800 text-gray-100 items-stretch lg:mt-10">
-            {allBrands && allBrands.map((brand, index) => {
+            {allBrands && allBrands
+               .sort((a, b) => Number(a.tokenID) > Number(b.tokenID) ? 1 : -1)
+               .map((brand, index) => {
                   return (
                      <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
                         <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
