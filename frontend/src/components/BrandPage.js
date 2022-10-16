@@ -24,9 +24,9 @@ const BrandPage = () => {
    const provider = _provider;
    const signer = _signer;
    //const BrandNFTContract = new ethers.Contract(contractAddress, contractABI, signer);
-   
 
-   const [ allBrands, setAllBrands ] = useState(retriveBrands);
+
+   const [allBrands, setAllBrands] = useState(retriveBrands);
 
    const contractAddress = "0x11e3d82ebed1e82da57e2512554ede03846a00bf";
    const contractABI = abi.abi;
@@ -35,7 +35,7 @@ const BrandPage = () => {
       addressOrName: contractAddress,
       contractInterface: contractABI,
       signerOrProvider: signer.data || provider,
-      });
+   });
 
    /*
    const checkIfWalletIsConnect = async () => {
@@ -83,66 +83,68 @@ const BrandPage = () => {
    }
    */
 
-  const reloadPage = () => {
-     getmintedBrands(); 
+   const reloadPage = () => {
+      getmintedBrands();
    }
-   
-  const getmintedBrands = async () => {
-   try {
-   const { ethereum } = window;
-      if(ethereum) {
-         const mintedBrands = await BrandNFTContract.getMintedBrands();
-         
-         console.log(mintedBrands);
 
-         let mintedBrandsClean=[];
-         mintedBrands.forEach(async mintedBrand => {
+   const getmintedBrands = async () => {
+      try {
+         const { ethereum } = window;
+         if (ethereum) {
+            const mintedBrands = await BrandNFTContract.getMintedBrands();
 
-            //fetch data from ipfs and store in state variable
+            console.log(mintedBrands);
 
-            //getBrandMetadata(`${mintedBrand.tokenURI}%7D`);
-            const response = await axios.get(`${mintedBrand.tokenURI}%7D`);
+            let mintedBrandsClean = [];
+            mintedBrands.forEach(async mintedBrand => {
 
-            mintedBrandsClean.push({
-            owner: mintedBrand.nftOwner,
-            tokenID: mintedBrand.tokenId.toString(),
-            tokenName: response.data.brandName,
-            tokenDescription: response.data.brandDescription,
-            tokenLogo: response.data.logoUrl
-            });
+               //fetch data from ipfs and store in state variable
 
-            setAllBrands([...mintedBrandsClean]);
+               //getBrandMetadata(`${mintedBrand.tokenURI}%7D`);
+               const response = await axios.get(`${mintedBrand.tokenURI}%7D`);
 
-         })
+               mintedBrandsClean.push({
+                  owner: mintedBrand.nftOwner,
+                  tokenID: mintedBrand.tokenId.toString(),
+                  tokenName: response.data.brandName,
+                  tokenDescription: response.data.brandDescription,
+                  tokenLogo: response.data.logoUrl
+               });
 
-      }
-    } catch (error) {
-      console.log(error);
+               setAllBrands([...mintedBrandsClean]);
+
+            })
+
+         }
+      } catch (error) {
+         console.log(error);
       }
    }
 
    useEffect(() => {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(allBrands));
    }, [allBrands]);
-   
+
    return (
       <div className="bg-gray-800">
-         <Header/>
-          <button className="px-3 py-3 font-semibold rounded bg-green-400 text-gray-900 lg:ml-10" onClick={(e)=> reloadPage()}> Get All NFTs</button>
+         <Header />
+         <div className="flex justify-center items-center">
+            <button className="my-20 px-4 py-2 font-semibold rounded-lg bg-green-400 text-gray-900 cursor-pointer transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/50" onClick={(e) => reloadPage()}> Get All NFTs</button>
+         </div>
 
-         <div className="flex justify-center items-center h-screen bg-gray-800 text-gray-100 items-stretch lg:mt-10">
+         <div className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:max-w-4xl lg:max-w-5xl xl:max-w-6xl w-11/12 mx-auto">
             {allBrands && allBrands
                .sort((a, b) => Number(a.tokenID) > Number(b.tokenID) ? 1 : -1)
                .map((brand, index) => {
                   return (
-                     <div key={index} className="col-span-full sm:col-span-3 lg:ml-5 ">
+                     <div key={index}>
                         <BrandCard name={brand.tokenName} description={brand.tokenDescription} logo={brand.tokenLogo} tokenID={brand.tokenID}></BrandCard>
                      </div>
                   )
                })}
          </div>
-         <Footer/>
-         
+         <Footer />
+
       </div>
    );
 };

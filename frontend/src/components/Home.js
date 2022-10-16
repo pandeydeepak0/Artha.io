@@ -18,33 +18,48 @@ const Home = () => {
    // Render Methods
    const { address, isConnected } = useAccount();
 
-   useEffect(() => {},[address]);
- 
-  // Render Methods
-   return (
-      <div className="bg-gray-800">
-         <Header/>
-         <section className="bg-gray-800 text-gray-100">
-            <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
-               <div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
-                  <h1 className="text-5xl font-bold leading-none sm:text-6xl">Bring your Brand to
-                     <span className="text-green-400"> Web3</span> with us
-                  </h1>
-                  <p className="mt-6 mb-8 text-lg sm:mb-12">One click dApp marketplace for digital brands
-                     
-                  </p>
-                  <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
+   useEffect(() => { }, [address]);
 
-                     {isConnected && (
-                        <div className="flex flex-row space-x-4">
-                           <button type="button" className="px-8 py-3 justify-right font-semibold rounded-full bg-green-400 text-gray-800" onClick={toMintBrandPage}>Mint My Brand</button>
-                           <button type="button" className="px-8 py-3 justify-right font-semibold rounded-full bg-gray-400 text-gray-800" onClick={toBrandPage}>All Brands</button>
-                        </div>
-                     )}   
-                  </div>
+   // Render Methods
+   return (
+      <div className="">
+         <Header />
+
+         <section className='h-screen gradientGreen flex flex-col items-center justify-center'>
+            <div className='font-Roboto text-center'>
+               <h1 className='text-7xl max-w-3xl font-semibold tracking-tighter font-Roboto text-gray-200'>Artha is the better way to build Web3 brands</h1>
+               <h2 className='text-gray-200 mt-5 text-xl'>One click dApp marketplace for digital brands</h2>
+               <div className='pt-10 flex items-center justify-center gap-x-4'>
+                  <button onClick={toMintBrandPage} className='px-4 py-2 rounded-lg bg-green-400 font-semibold transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/50'>Mint your brand</button>
+                  <button onClick={toBrandPage} className='px-4 py-2 rounded-lg bg-green-400 font-semibold transition duration-200 hover:-translate-y-1 hover:shadow-lg'>Explore marketplace</button>
                </div>
-               <div className="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
-                  <img src="assets/Business_SVG.svg" alt="" className="object-contain h-72 sm:h-80 lg:mr-40 lg:h-96 xl:h-112 2xl:h-128" />
+            </div>
+
+         </section>
+
+         <section className='my-10  font-Roboto  md:max-w-4xl lg:max-w-5xl xl:max-w-6xl w-11/12 mx-auto'>
+            <h1 className='text-center pb-10 text-4xl md:text-6xl max-w-6xl font-semibold tracking-tighter font-Roboto text-gray-800'>Give your Brand the <br />
+               identity it deserves</h1>
+            <div className='flex flex-col gap-4 justify-between items-center md:flex-row'>
+               <div className='rounded-lg shadow-md p-5 max-w-xs cursor-pointer border border-gray-200 transition duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500'>
+                  <img src='/001.jpeg' className='h-48 rounded-xl'></img>
+                  <h1 className='pt-2 font-bold'>Identity</h1>
+                  <p className='pt-2 text-sm text-gray-700'>Allow brands to have a unique
+                     identity on the decentralized
+                     internet.</p>
+               </div>
+               <div className='rounded-lg shadow-md p-5 max-w-xs cursor-pointer border border-gray-200 transition duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500'>
+                  <img src='/002.jpeg' className='h-48 rounded-xl'></img>
+                  <h1 className='pt-2 font-bold'>Create</h1>
+                  <p className='pt-2 text-sm text-gray-700'>Allow brands to create and own
+                     Web3 apps.</p>
+               </div>
+               <div className='rounded-lg shadow-md p-5 max-w-xs cursor-pointer border border-gray-200 transition duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500'>
+                  <img src='/003.jpeg' className='h-48 rounded-xl'></img>
+                  <h1 className='pt-2 font-bold'>Expand</h1>
+                  <p className='pt-2 text-sm text-gray-700'>Allow brands to be future-ready by
+                     expanding on the internet of
+                     tomorrow.</p>
                </div>
             </div>
          </section>
@@ -89,7 +104,7 @@ const Home = () => {
          </section>
 
 
-         <Footer/>
+         <Footer />
       </div>
    );
 };
