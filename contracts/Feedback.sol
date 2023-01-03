@@ -32,6 +32,9 @@ contract FeedbackFactory{
 
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "hardhat/console.sol";
+
+
 contract Feedbacks{
 
    struct Feedback {
