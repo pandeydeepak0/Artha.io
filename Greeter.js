@@ -6,8 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from 'ethers';
 
 const Feedback = (props) => {
-  // Add components in the component folder
-  // Render Methods
+
 
   const LOCAL_STORAGE_KEY = "currentGreeting";
   const getCurrentGreeting = (localStorage.getItem(LOCAL_STORAGE_KEY) !== "") ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) : 'Greet your customer';
