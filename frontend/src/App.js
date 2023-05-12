@@ -19,9 +19,7 @@ const App = () => {
           <Route exact path='/brands/:tokenID'>
             <BrandDetails/>
           </Route>
-          <Route exact path='/brands/:tokenID/apps/:AppName'>
-            <AppPage/>
-          </Route>
+          
         </Switch>
       </Router>
       

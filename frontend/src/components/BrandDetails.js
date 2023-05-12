@@ -79,8 +79,7 @@ const BrandDetails = () => {
             </div>
          </div>
 
-         {address.toLowerCase() === brandDetail.owner.toLowerCase() && (
-            <AddApps owner={brandDetail.owner} tokenID={brandDetail.tokenID}/>)}   
+         <AddApps owner={brandDetail.owner} tokenID={brandDetail.tokenID}/>)}   
       </div>
       <Footer/>
 
